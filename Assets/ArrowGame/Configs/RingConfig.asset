@@ -18,5 +18,13 @@ MonoBehaviour:
   spawnDistanceAhead: 50
   minDistanceBetweenRings: 15
   maxDistanceBetweenRings: 25
+  spawnMinX: -23
+  spawnMaxX: 25
+  spawnMinY: -13
+  spawnMaxY: 10
+  minMoveSpeed: 5
+  maxMoveSpeed: 10
+  movePauseDurationMin: 0.2
+  movePauseDurationMax: 0.8
   ringScale: 3
   spawnAnimationDuration: 0.3

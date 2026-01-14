@@ -569,8 +569,7 @@ MonoBehaviour:
   ringPrefab: {fileID: 4580555233603560236, guid: 52c7d8d04d952264db6760f8389e259b, type: 3}
   config: {fileID: 11400000, guid: c8b83e901e897e24fb6e0b80e8a226fa, type: 2}
   poolSize: 10
-  spawnY: 0
-  spawnX: 0
+  spawnZOffset: 0
 --- !u!1 &2127134138
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +580,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2127134139}
   - component: {fileID: 2127134140}
+  - component: {fileID: 2127134142}
+  - component: {fileID: 2127134141}
   m_Layer: 0
   m_Name: RingPassDetector
   m_TagString: Untagged
@@ -615,7 +616,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ae54b8d0ef4ee4ab1f251d453c24b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionThreshold: 0.5
+--- !u!135 &2127134141
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127134138}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2127134142
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127134138}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2127688096
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5872042287534739250, guid: 49e7dfa632ecf4343bec2ed441bdc5f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5872042287534739250, guid: 49e7dfa632ecf4343bec2ed441bdc5f1, type: 3}
       propertyPath: m_LocalRotation.w

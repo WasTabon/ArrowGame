@@ -15,9 +15,8 @@ namespace ArrowGame.Ring
         [Header("Pool Settings")]
         [SerializeField] private int poolSize = 10;
 
-        [Header("Spawn Position")]
-        [SerializeField] private float spawnY = 0f;
-        [SerializeField] private float spawnX = 0f;
+        [Header("Spawn Position Z")]
+        [SerializeField] private float spawnZOffset = 0f;
 
         private Queue<GameObject> ringPool = new Queue<GameObject>();
         private List<RingController> activeRings = new List<RingController>();
@@ -29,6 +28,7 @@ namespace ArrowGame.Ring
         private Transform needleTransform;
 
         public List<RingController> ActiveRings => activeRings;
+        public RingConfig Config => config;
 
         private void Awake()
         {
@@ -112,7 +112,10 @@ namespace ArrowGame.Ring
             lastSpawnedZ += nextSpawnDistance;
             ringsSpawned++;
 
-            Vector3 position = new Vector3(spawnX, spawnY, lastSpawnedZ);
+            float spawnX = Random.Range(config.spawnMinX, config.spawnMaxX);
+            float spawnY = Random.Range(config.spawnMinY, config.spawnMaxY);
+            Vector3 position = new Vector3(spawnX, spawnY, lastSpawnedZ + spawnZOffset);
+
             ringObj.transform.position = position;
             ringObj.transform.rotation = Quaternion.identity;
             ringObj.transform.localScale = Vector3.one * config.ringScale;
@@ -124,7 +127,7 @@ namespace ArrowGame.Ring
             {
                 float speed = CalculateRotationSpeed();
                 int direction = Random.value > 0.5f ? 1 : -1;
-                controller.Initialize(speed, direction);
+                controller.Initialize(speed, direction, config);
                 activeRings.Add(controller);
             }
 
@@ -201,6 +204,32 @@ namespace ArrowGame.Ring
             lastSpawnedZ = 0f;
             ringsSpawned = 0;
             CalculateNextSpawnDistance();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (config == null) return;
+
+            Gizmos.color = Color.cyan;
+
+            float centerX = (config.spawnMinX + config.spawnMaxX) / 2f;
+            float centerY = (config.spawnMinY + config.spawnMaxY) / 2f;
+            float width = config.spawnMaxX - config.spawnMinX;
+            float height = config.spawnMaxY - config.spawnMinY;
+
+            float z = 0f;
+            if (needleTransform != null)
+            {
+                z = needleTransform.position.z + 30f;
+            }
+
+            Vector3 center = new Vector3(centerX, centerY, z);
+            Vector3 size = new Vector3(width, height, 0.1f);
+
+            Gizmos.DrawWireCube(center, size);
+
+            Gizmos.color = new Color(0f, 1f, 1f, 0.1f);
+            Gizmos.DrawCube(center, size);
         }
     }
 }

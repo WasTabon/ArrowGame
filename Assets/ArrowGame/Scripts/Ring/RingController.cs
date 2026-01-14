@@ -13,7 +13,14 @@ namespace ArrowGame.Ring
         private bool isActive = true;
         private bool isPassed = false;
         private Tween spawnTween;
+        private Tween moveTween;
         private BoxCollider triggerCollider;
+
+        private float moveSpeed;
+        private float minX, maxX, minY, maxY;
+        private float pauseDurationMin, pauseDurationMax;
+        private float ringZ;
+        private bool moveToNeedleNext = true;
 
         public float RotationSpeed => rotationSpeed;
         public bool IsPassed => isPassed;
@@ -46,14 +53,26 @@ namespace ArrowGame.Ring
             transform.Rotate(Vector3.forward, rotationSpeed * rotationDirection * Time.deltaTime);
         }
 
-        public void Initialize(float speed, int direction)
+        public void Initialize(float speed, int direction, RingConfig config)
         {
             rotationSpeed = speed;
             rotationDirection = direction;
             isActive = true;
             isPassed = false;
 
+            minX = config.spawnMinX;
+            maxX = config.spawnMaxX;
+            minY = config.spawnMinY;
+            maxY = config.spawnMaxY;
+            pauseDurationMin = config.movePauseDurationMin;
+            pauseDurationMax = config.movePauseDurationMax;
+
+            moveSpeed = Random.Range(config.minMoveSpeed, config.maxMoveSpeed);
+            ringZ = transform.position.z;
+            moveToNeedleNext = true;
+
             PlaySpawnAnimation();
+            StartMovement();
         }
 
         private void PlaySpawnAnimation()
@@ -61,6 +80,63 @@ namespace ArrowGame.Ring
             transform.localScale = Vector3.zero;
             spawnTween = transform.DOScale(Vector3.one, 0.3f)
                 .SetEase(Ease.OutBack);
+        }
+
+        private void StartMovement()
+        {
+            MoveToNextPoint();
+        }
+
+        private void MoveToNextPoint()
+        {
+            if (!isActive || isPassed) return;
+
+            Vector3 targetPos;
+
+            if (moveToNeedleNext)
+            {
+                targetPos = GetNeedleTargetPosition();
+            }
+            else
+            {
+                targetPos = GetRandomTargetPosition();
+            }
+
+            moveToNeedleNext = !moveToNeedleNext;
+
+            float distance = Vector3.Distance(transform.position, targetPos);
+            float duration = distance / moveSpeed;
+
+            if (duration < 0.1f) duration = 0.1f;
+
+            moveTween = transform.DOMove(targetPos, duration)
+                .SetEase(Ease.InOutSine)
+                .OnComplete(() =>
+                {
+                    if (!isActive || isPassed) return;
+
+                    float pause = Random.Range(pauseDurationMin, pauseDurationMax);
+                    DOVirtual.DelayedCall(pause, MoveToNextPoint);
+                });
+        }
+
+        private Vector3 GetNeedleTargetPosition()
+        {
+            var needle = Needle.NeedleController.Instance;
+            if (needle != null)
+            {
+                Vector3 needlePos = needle.transform.position;
+                return new Vector3(needlePos.x, needlePos.y, ringZ);
+            }
+
+            return GetRandomTargetPosition();
+        }
+
+        private Vector3 GetRandomTargetPosition()
+        {
+            float targetX = Random.Range(minX, maxX);
+            float targetY = Random.Range(minY, maxY);
+            return new Vector3(targetX, targetY, ringZ);
         }
 
         public void SetRotationSpeed(float speed)
@@ -90,6 +166,7 @@ namespace ArrowGame.Ring
 
             isPassed = true;
             isActive = false;
+            moveTween?.Kill();
             OnRingPassed?.Invoke(this);
 
             PlayPassedAnimation();
@@ -109,6 +186,7 @@ namespace ArrowGame.Ring
         public void Deactivate()
         {
             spawnTween?.Kill();
+            moveTween?.Kill();
             isActive = false;
             transform.DOScale(Vector3.zero, 0.2f)
                 .SetEase(Ease.InBack)
@@ -118,8 +196,10 @@ namespace ArrowGame.Ring
         public void ResetRing()
         {
             spawnTween?.Kill();
+            moveTween?.Kill();
             isActive = true;
             isPassed = false;
+            moveToNeedleNext = true;
             transform.localScale = Vector3.one;
             transform.rotation = Quaternion.identity;
         }
@@ -127,6 +207,7 @@ namespace ArrowGame.Ring
         private void OnDisable()
         {
             spawnTween?.Kill();
+            moveTween?.Kill();
         }
     }
 }

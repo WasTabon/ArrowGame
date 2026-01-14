@@ -15,6 +15,18 @@ namespace ArrowGame.Ring
         public float minDistanceBetweenRings = 15f;
         public float maxDistanceBetweenRings = 25f;
 
+        [Header("Spawn Area")]
+        public float spawnMinX = -2f;
+        public float spawnMaxX = 2f;
+        public float spawnMinY = -1f;
+        public float spawnMaxY = 2f;
+
+        [Header("Ring Movement")]
+        public float minMoveSpeed = 0.5f;
+        public float maxMoveSpeed = 2f;
+        public float movePauseDurationMin = 0.2f;
+        public float movePauseDurationMax = 0.8f;
+
         [Header("Visual Settings")]
         public float ringScale = 3f;
         public float spawnAnimationDuration = 0.3f;
