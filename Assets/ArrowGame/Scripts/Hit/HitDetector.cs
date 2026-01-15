@@ -23,39 +23,39 @@ namespace ArrowGame.Hit
 
         private void Start()
         {
-            Debug.Log($"HitDetector Start. RingPassDetector.Instance = {Ring.RingPassDetector.Instance}");
-    
-            if (Ring.RingPassDetector.Instance != null)
-            {
-                Ring.RingPassDetector.Instance.OnNeedlePassedRing += HandleRingPassed;
-                Debug.Log("HitDetector subscribed to OnNeedlePassedRing");
-            }
-            else
-            {
-                Debug.LogError("RingPassDetector.Instance is NULL!");
-            }
+            SubscribeToEvents();
         }
 
         private void OnEnable()
         {
-            if (Ring.RingPassDetector.Instance != null)
-            {
-                Ring.RingPassDetector.Instance.OnNeedlePassedRing += HandleRingPassed;
-            }
+            SubscribeToEvents();
         }
 
         private void OnDisable()
         {
+            UnsubscribeFromEvents();
+        }
+
+        private void SubscribeToEvents()
+        {
+            if (Ring.RingPassDetector.Instance != null)
+            {
+                Ring.RingPassDetector.Instance.OnNeedlePassedRing += HandleRingPassed;
+                Ring.RingPassDetector.Instance.OnNeedleMissedRing += HandleRingMissed;
+            }
+        }
+
+        private void UnsubscribeFromEvents()
+        {
             if (Ring.RingPassDetector.Instance != null)
             {
                 Ring.RingPassDetector.Instance.OnNeedlePassedRing -= HandleRingPassed;
+                Ring.RingPassDetector.Instance.OnNeedleMissedRing -= HandleRingMissed;
             }
         }
 
         private void HandleRingPassed(Ring.RingController ring)
         {
-            Debug.Log($"HandleRingPassed called! Ring = {ring}");
-            
             if (config == null)
             {
                 Debug.LogError("HitZoneConfig not assigned to HitDetector!");
@@ -63,6 +63,19 @@ namespace ArrowGame.Hit
             }
 
             HitResult result = CalculateHit(ring);
+            OnHit?.Invoke(result);
+        }
+
+        private void HandleRingMissed(Ring.RingController ring)
+        {
+            HitResult result = new HitResult
+            {
+                Zone = HitZone.Miss,
+                Distance = float.MaxValue,
+                HitPosition = Needle.NeedleController.Instance.transform.position,
+                Ring = ring
+            };
+
             OnHit?.Invoke(result);
         }
 
