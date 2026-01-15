@@ -72,9 +72,7 @@ namespace ArrowGame.Needle
 
         public void SetSpeed(float newSpeed)
         {
-            float targetSpeed = Mathf.Clamp(newSpeed, config.minNeedleSpeed, config.maxNeedleSpeed);
-            DOTween.To(() => currentSpeed, x => currentSpeed = x, targetSpeed, 0.3f)
-                .SetEase(Ease.OutQuad);
+            currentSpeed = newSpeed;
         }
 
         public void AddSpeed(float amount)
