@@ -16,8 +16,8 @@ MonoBehaviour:
   maxRotationSpeed: 360
   rotationSpeedIncreasePerRing: 2
   spawnDistanceAhead: 50
-  minDistanceBetweenRings: 15
-  maxDistanceBetweenRings: 25
+  minDistanceBetweenRings: 30
+  maxDistanceBetweenRings: 45
   spawnMinX: -23
   spawnMaxX: 25
   spawnMinY: -13
