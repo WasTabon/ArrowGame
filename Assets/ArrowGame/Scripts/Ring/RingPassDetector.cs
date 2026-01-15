@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace ArrowGame.Ring
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(SphereCollider))]
     public class RingPassDetector : MonoBehaviour
     {
         public static RingPassDetector Instance { get; private set; }
@@ -30,15 +28,18 @@ namespace ArrowGame.Ring
 
             SphereCollider col = GetComponent<SphereCollider>();
             col.isTrigger = true;
-            col.radius = 0.3f;
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"OnTriggerEnter! other = {other.name}, parent = {other.transform.parent?.name}");
+    
             if (Core.GameManager.Instance == null) return;
             if (Core.GameManager.Instance.CurrentState != Core.GameState.Run) return;
 
             RingController ring = other.GetComponentInParent<RingController>();
+            Debug.Log($"RingController = {ring}");
+    
             if (ring != null && !ring.IsPassed)
             {
                 OnPassedThroughRing(ring);

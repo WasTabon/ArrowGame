@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 688890540789100677}
   - component: {fileID: 2608517078352199677}
   - component: {fileID: 2825733925857919539}
-  - component: {fileID: 9117056636577584526}
   m_Layer: 0
   m_Name: Arrow_4
   m_TagString: Untagged
@@ -84,27 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9117056636577584526
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4500177431594840412}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.7295156, y: 3.7863376, z: 0.8367012}
-  m_Center: {x: 0, y: -0.02841103, z: -0.0000140964985}
 --- !u!1 &4580555233603560236
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,11 +148,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 3.3, y: 3.3, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7009083270993579823
 PrefabInstance:

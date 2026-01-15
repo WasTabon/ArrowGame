@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 namespace ArrowGame.Ring
 {
@@ -7,19 +8,18 @@ namespace ArrowGame.Ring
     {
         public static RingSlowdownController Instance { get; private set; }
 
-        [Header("Slowdown Settings")]
-        [SerializeField] private float slowdownRate = 2f;
-        [SerializeField] private float minSpeedMultiplier = 0f;
-        [SerializeField] private float speedRecoveryDuration = 0.3f;
+        [Header("Slowdown Strength")]
+        [SerializeField] private float minSpeedMultiplier = 0.05f;
+        [SerializeField] private float minMoveSpeedMultiplier = 0.1f;
 
-        private RingController currentTargetRing;
-        private float originalSpeed;
-        private float currentMultiplier = 1f;
+        [Header("Timing")]
+        [SerializeField] private float slowdownDuration = 0.3f;
+        [SerializeField] private float recoveryDuration = 0.3f;
+
+        private Dictionary<RingController, float> originalSpeeds = new Dictionary<RingController, float>();
         private bool isSlowingDown = false;
-        private Tween recoveryTween;
 
         public bool IsSlowingDown => isSlowingDown;
-        public float CurrentMultiplier => currentMultiplier;
 
         private void Awake()
         {
@@ -66,82 +66,65 @@ namespace ArrowGame.Ring
             }
         }
 
-        private void Update()
-        {
-            UpdateTargetRing();
-        }
-
-        private void UpdateTargetRing()
-        {
-            if (RingSpawner.Instance == null) return;
-
-            RingController nextRing = RingSpawner.Instance.GetNextRing();
-
-            if (nextRing != currentTargetRing)
-            {
-                if (currentTargetRing != null && isSlowingDown)
-                {
-                    RestoreRingSpeed(currentTargetRing);
-                }
-
-                currentTargetRing = nextRing;
-
-                if (currentTargetRing != null)
-                {
-                    originalSpeed = currentTargetRing.RotationSpeed;
-                    currentMultiplier = 1f;
-                }
-            }
-        }
-
         private void HandleInputStart()
         {
-            recoveryTween?.Kill();
             isSlowingDown = true;
-            currentMultiplier = 1f;
+            originalSpeeds.Clear();
 
-            if (currentTargetRing != null)
+            if (RingSpawner.Instance == null) return;
+
+            foreach (var ring in RingSpawner.Instance.ActiveRings)
             {
-                originalSpeed = currentTargetRing.RotationSpeed;
+                SlowDownRing(ring);
             }
         }
 
         private void HandleInputHold(float holdDuration)
         {
-            if (currentTargetRing == null) return;
             if (!isSlowingDown) return;
+            if (RingSpawner.Instance == null) return;
 
-            currentMultiplier -= slowdownRate * Time.deltaTime;
-            currentMultiplier = Mathf.Max(currentMultiplier, minSpeedMultiplier);
-
-            float newSpeed = originalSpeed * currentMultiplier;
-            currentTargetRing.SetRotationSpeed(newSpeed);
-
-            Debug.Log($"Slowdown: multiplier={currentMultiplier:F2}, speed={newSpeed:F1}, original={originalSpeed:F1}");
+            foreach (var ring in RingSpawner.Instance.ActiveRings)
+            {
+                if (!originalSpeeds.ContainsKey(ring))
+                {
+                    SlowDownRing(ring);
+                }
+            }
         }
 
         private void HandleInputEnd()
         {
             isSlowingDown = false;
 
-            if (currentTargetRing != null)
+            if (RingSpawner.Instance == null) return;
+
+            foreach (var ring in RingSpawner.Instance.ActiveRings)
             {
-                RestoreRingSpeed(currentTargetRing);
+                if (ring == null || ring.IsPassed) continue;
+
+                ring.SetTrailActive(false);
+                ring.SetMoveSpeedMultiplier(1f, recoveryDuration);
+
+                if (originalSpeeds.ContainsKey(ring))
+                {
+                    ring.RestoreSpeedSmooth(originalSpeeds[ring], recoveryDuration);
+                }
             }
+
+            originalSpeeds.Clear();
         }
 
-        private void RestoreRingSpeed(RingController ring)
+        private void SlowDownRing(RingController ring)
         {
-            recoveryTween?.Kill();
+            if (ring == null || ring.IsPassed) return;
 
-            float targetSpeed = originalSpeed;
-
-            recoveryTween = DOTween.To(
-                () => ring.RotationSpeed,
-                x => ring.SetRotationSpeed(x),
-                targetSpeed,
-                speedRecoveryDuration
-            ).SetEase(Ease.OutQuad);
+            originalSpeeds[ring] = ring.RotationSpeed;
+            
+            float targetSpeed = originalSpeeds[ring] * minSpeedMultiplier;
+            ring.SlowDownSmooth(targetSpeed, slowdownDuration);
+            ring.SetMoveSpeedMultiplier(minMoveSpeedMultiplier, slowdownDuration);
+            ring.SetTrailActive(true);
         }
     }
 }
