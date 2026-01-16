@@ -69,19 +69,11 @@ namespace ArrowGame.Lives
 
         private void ShowNoLivesPopup()
         {
-            if (noLivesPopup != null)
+            if (UI.UIManager.Instance != null)
             {
-                noLivesPopup.SetActive(true);
-
-                CanvasGroup canvasGroup = noLivesPopup.GetComponent<CanvasGroup>();
-                if (canvasGroup != null)
-                {
-                    canvasGroup.alpha = 0f;
-                    canvasGroup.DOFade(1f, 0.3f);
-                }
+                UI.UIManager.Instance.ShowNoLivesPopup();
             }
         }
-
         private void CloseNoLivesPopup()
         {
             if (noLivesPopup != null)

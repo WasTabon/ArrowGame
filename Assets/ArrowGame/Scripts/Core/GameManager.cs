@@ -17,9 +17,9 @@ namespace ArrowGame.Core
     {
         public static GameManager Instance { get; private set; }
 
-        public event Action<GameState> OnGameStateChanged;
-
         [SerializeField] private GameState currentState = GameState.Boot;
+
+        public event Action<GameState> OnStateChanged;
 
         public GameState CurrentState => currentState;
 
@@ -37,7 +37,7 @@ namespace ArrowGame.Core
 
         private void Start()
         {
-            SetState(GameState.Run);
+            SetState(GameState.MainMenu);
         }
 
         public void SetState(GameState newState)
@@ -45,7 +45,7 @@ namespace ArrowGame.Core
             if (currentState == newState) return;
 
             currentState = newState;
-            OnGameStateChanged?.Invoke(currentState);
+            OnStateChanged?.Invoke(currentState);
         }
 
         public void StartRun()
