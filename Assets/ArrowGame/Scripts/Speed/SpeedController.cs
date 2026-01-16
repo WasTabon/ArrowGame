@@ -44,6 +44,8 @@ namespace ArrowGame.Speed
             {
                 Hit.HitDetector.Instance.OnHit += HandleHit;
             }
+
+            OnSpeedChanged?.Invoke(currentSpeed);
         }
 
         private void OnEnable()
