@@ -69,6 +69,26 @@ namespace ArrowGame.Lives
             }
         }
 
+        [ContextMenu("Debug: Set Lives to 0")]
+        public void DebugSetLivesZero()
+        {
+            DebugSetLives(0);
+        }
+        
+        public void DebugSetLives(int amount)
+        {
+            currentLives = Mathf.Clamp(amount, 0, config.maxLives);
+            
+            if (currentLives < config.maxLives && regenTimer <= 0)
+            {
+                regenTimer = config.RegenerationTimeSeconds;
+            }
+            
+            OnLivesChanged?.Invoke(currentLives);
+            SaveState();
+            Debug.Log($"[DEBUG] Lives set to: {currentLives}");
+        }
+        
         private void RegenerateLife()
         {
             currentLives = Mathf.Min(currentLives + 1, config.maxLives);
