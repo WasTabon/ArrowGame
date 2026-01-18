@@ -516,14 +516,13 @@ GameObject:
   - component: {fileID: 256449480}
   - component: {fileID: 256449479}
   - component: {fileID: 256449482}
-  - component: {fileID: 256449481}
   m_Layer: 5
   m_Name: LivesShopPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &256449478
 RectTransform:
   m_ObjectHideFlags: 0
@@ -582,25 +581,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256449477}
   m_CullTransparentMesh: 1
---- !u!114 &256449481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256449477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef074d250ac1ad4a98372ad3dc39afb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shopPanel: {fileID: 256449477}
-  canvasGroup: {fileID: 256449482}
-  closeButton: {fileID: 549681131}
-  restoreButton: {fileID: 0}
-  statusText: {fileID: 1973868401}
-  fadeInDuration: 0.3
-  fadeOutDuration: 0.2
 --- !u!225 &256449482
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1005,7 +985,6 @@ MonoBehaviour:
   gameHUD: {fileID: 450769322}
   gameOverScreen: {fileID: 503308667}
   noLivesPopup: {fileID: 1936432314}
-  livesShopPanel: {fileID: 256449477}
 --- !u!1 &450769322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,6 +1605,7 @@ Transform:
   - {fileID: 640064891}
   - {fileID: 419587382}
   - {fileID: 1316445045}
+  - {fileID: 1663735300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &545585286
@@ -2125,9 +2105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdd46efe84377c47906f02439c77300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noLivesPopup: {fileID: 1936432314}
   playButton: {fileID: 126619045}
-  closePopupButton: {fileID: 1866975409}
 --- !u!1 &666388643
 GameObject:
   m_ObjectHideFlags: 0
@@ -4838,6 +4816,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1663735299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1663735300}
+  - component: {fileID: 1663735301}
+  m_Layer: 0
+  m_Name: LivesShopController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1663735300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663735299}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 527107297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1663735301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663735299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef074d250ac1ad4a98372ad3dc39afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopPanel: {fileID: 256449477}
+  canvasGroup: {fileID: 256449482}
+  closeButton: {fileID: 549681131}
+  restoreButton: {fileID: 0}
+  statusText: {fileID: 1973868401}
+  fadeInDuration: 0.3
+  fadeOutDuration: 0.2
 --- !u!1 &1687758445
 GameObject:
   m_ObjectHideFlags: 0
@@ -5547,6 +5576,7 @@ GameObject:
   - component: {fileID: 1936432317}
   - component: {fileID: 1936432316}
   - component: {fileID: 1936432318}
+  - component: {fileID: 1936432319}
   m_Layer: 5
   m_Name: NoLivesPopup
   m_TagString: Untagged
@@ -5624,6 +5654,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1936432319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936432314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f93f81260e2864d8a0fbe35726569f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buyLivesButton: {fileID: 1069124573}
+  closeButton: {fileID: 1866975409}
 --- !u!1 &1953157271
 GameObject:
   m_ObjectHideFlags: 0

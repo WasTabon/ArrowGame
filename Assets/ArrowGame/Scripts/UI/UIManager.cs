@@ -12,7 +12,6 @@ namespace ArrowGame.UI
         [SerializeField] private GameObject gameHUD;
         [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private GameObject noLivesPopup;
-        [SerializeField] private GameObject livesShopPanel;
 
         private void Awake()
         {
@@ -90,11 +89,7 @@ namespace ArrowGame.UI
 
         public void ShowNoLivesPopup()
         {
-            if (IAP.LivesShopUI.Instance != null)
-            {
-                IAP.LivesShopUI.Instance.Show();
-            }
-            else if (noLivesPopup != null)
+            if (noLivesPopup != null)
             {
                 noLivesPopup.SetActive(true);
             
@@ -109,13 +104,20 @@ namespace ArrowGame.UI
 
         public void HideNoLivesPopup()
         {
-            if (IAP.LivesShopUI.Instance != null)
+            if (noLivesPopup != null)
             {
-                IAP.LivesShopUI.Instance.Hide();
-            }
-            else
-            {
-                SetPanelActive(noLivesPopup, false);
+                CanvasGroup canvasGroup = noLivesPopup.GetComponent<CanvasGroup>();
+                if (canvasGroup != null)
+                {
+                    canvasGroup.DOFade(0f, 0.2f).OnComplete(() =>
+                    {
+                        noLivesPopup.SetActive(false);
+                    });
+                }
+                else
+                {
+                    noLivesPopup.SetActive(false);
+                }
             }
         }
 
