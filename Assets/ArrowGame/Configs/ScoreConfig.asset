@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604c5ffa02a25104cbcd4b0d786d2f94, type: 3}
+  m_Name: ScoreConfig
+  m_EditorClassIdentifier: 
+  corePoints: 100
+  innerPoints: 50
+  middlePoints: 25
+  outerPoints: 10
+  streakForMultiplier2x: 5
+  streakForMultiplier3x: 10
+  streakForMultiplier4x: 20
+  streakForMultiplier5x: 35
+  outerBreaksStreak: 0
+  outerWeakensStreak: 1
+  outerStreakPenalty: 2
