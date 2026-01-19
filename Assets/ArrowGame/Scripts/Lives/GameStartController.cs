@@ -10,6 +10,9 @@ namespace ArrowGame.Lives
         [Header("UI References")]
         [SerializeField] private Button playButton;
 
+        [Header("Countdown")]
+        [SerializeField] private bool useCountdown = true;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -32,17 +35,34 @@ namespace ArrowGame.Lives
         {
             if (LivesManager.Instance == null)
             {
-                StartGame();
+                StartGameWithCountdown();
                 return;
             }
 
             if (LivesManager.Instance.TryUseLife())
             {
-                StartGame();
+                StartGameWithCountdown();
             }
             else
             {
                 ShowNoLivesPopup();
+            }
+        }
+
+        private void StartGameWithCountdown()
+        {
+            if (useCountdown && UI.CountdownController.Instance != null)
+            {
+                UI.UIManager.Instance?.HideMainMenu();
+                
+                UI.CountdownController.Instance.StartCountdown(() =>
+                {
+                    StartGame();
+                });
+            }
+            else
+            {
+                StartGame();
             }
         }
 

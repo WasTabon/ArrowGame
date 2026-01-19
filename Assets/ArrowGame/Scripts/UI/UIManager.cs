@@ -10,8 +10,11 @@ namespace ArrowGame.UI
         [Header("Panels")]
         [SerializeField] private GameObject mainMenuPanel;
         [SerializeField] private GameObject gameHUD;
-        [SerializeField] private GameObject gameOverScreen;
+        [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject noLivesPopup;
+
+        [Header("Transition Settings")]
+        [SerializeField] private float panelFadeDuration = 0.25f;
 
         private void Awake()
         {
@@ -50,41 +53,91 @@ namespace ArrowGame.UI
 
         private void HandleStateChanged(Core.GameState state)
         {
-            HideAllPanels();
-
             switch (state)
             {
                 case Core.GameState.MainMenu:
-                    ShowPanel(mainMenuPanel);
+                    ShowMainMenu();
                     break;
                 case Core.GameState.Run:
-                    ShowPanel(gameHUD);
+                    ShowGameHUD();
+                    break;
+                case Core.GameState.Pause:
                     break;
                 case Core.GameState.GameOver:
-                    ShowPanel(gameOverScreen);
                     break;
             }
+        }
+
+        private void ShowMainMenu()
+        {
+            HideAllPanels();
+            ShowPanelAnimated(mainMenuPanel);
+        }
+
+        public void HideMainMenu()
+        {
+            HidePanelAnimated(mainMenuPanel);
+        }
+
+        private void ShowGameHUD()
+        {
+            HidePanelImmediate(mainMenuPanel);
+            HidePanelImmediate(noLivesPopup);
+            ShowPanelAnimated(gameHUD);
         }
 
         private void HideAllPanels()
         {
-            SetPanelActive(mainMenuPanel, false);
-            SetPanelActive(gameHUD, false);
-            SetPanelActive(gameOverScreen, false);
-            SetPanelActive(noLivesPopup, false);
+            HidePanelImmediate(mainMenuPanel);
+            HidePanelImmediate(gameHUD);
+            HidePanelImmediate(pausePanel);
+            HidePanelImmediate(noLivesPopup);
         }
 
-        private void ShowPanel(GameObject panel)
+        private void ShowPanelAnimated(GameObject panel)
         {
-            SetPanelActive(panel, true);
-        }
+            if (panel == null) return;
 
-        private void SetPanelActive(GameObject panel, bool active)
-        {
-            if (panel != null)
+            panel.SetActive(true);
+
+            CanvasGroup cg = panel.GetComponent<CanvasGroup>();
+            if (cg != null)
             {
-                panel.SetActive(active);
+                cg.alpha = 0f;
+                cg.DOFade(1f, panelFadeDuration).SetUpdate(true);
             }
+        }
+
+        private void HidePanelAnimated(GameObject panel, System.Action onComplete = null)
+        {
+            if (panel == null)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            CanvasGroup cg = panel.GetComponent<CanvasGroup>();
+            if (cg != null)
+            {
+                cg.DOFade(0f, panelFadeDuration)
+                    .SetUpdate(true)
+                    .OnComplete(() =>
+                    {
+                        panel.SetActive(false);
+                        onComplete?.Invoke();
+                    });
+            }
+            else
+            {
+                panel.SetActive(false);
+                onComplete?.Invoke();
+            }
+        }
+
+        private void HidePanelImmediate(GameObject panel)
+        {
+            if (panel == null) return;
+            panel.SetActive(false);
         }
 
         public void ShowNoLivesPopup()
