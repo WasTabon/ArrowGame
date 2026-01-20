@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ebfb0c12f480ef42ac7bf9289b4a866, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: 
+  menuMusic: {fileID: 8300000, guid: bb07058d8434aac47a9a6c1bc0349c19, type: 3}
+  gameMusic: {fileID: 8300000, guid: e39db1283af70104c9e275458c77adfa, type: 3}
+  musicVolume: 0.3
+  musicFadeDuration: 1
+  coreHitSound: {fileID: 8300000, guid: 453a8d3ede98e0541bf6dc09e47006ce, type: 3}
+  innerHitSound: {fileID: 8300000, guid: 453a8d3ede98e0541bf6dc09e47006ce, type: 3}
+  middleHitSound: {fileID: 8300000, guid: 453a8d3ede98e0541bf6dc09e47006ce, type: 3}
+  outerHitSound: {fileID: 8300000, guid: 453a8d3ede98e0541bf6dc09e47006ce, type: 3}
+  missSound: {fileID: 8300000, guid: c1b9745d49bdd864e919adc493ccddfe, type: 3}
+  hitSoundVolume: 0.7
+  buttonClickSound: {fileID: 8300000, guid: ace2047ebd29cf6468ec2e6931e1ab18, type: 3}
+  countdownTickSound: {fileID: 8300000, guid: 073cc9ea557b83a4eb3c39bbff78b8a1, type: 3}
+  countdownGoSound: {fileID: 8300000, guid: 64e3428a12fb20945b0bb09a072413af, type: 3}
+  gameOverSound: {fileID: 0}
+  newHighScoreSound: {fileID: 0}
+  uiSoundVolume: 0.7
+  streakUpSound: {fileID: 0}
+  streakBreakSound: {fileID: 0}
+  multiplierUpSound: {fileID: 0}
+  streakSoundVolume: 0.7
+  streakLayers: []
+  layerVolume: 0.4
+  layerFadeDuration: 0.5

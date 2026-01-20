@@ -101,6 +101,18 @@ namespace ArrowGame.UI
             seq.SetUpdate(true);
 
             Feedback.HapticFeedback.LightImpact();
+
+            if (Audio.AudioManager.Instance != null)
+            {
+                if (text == goText)
+                {
+                    Audio.AudioManager.Instance.PlayCountdownGo();
+                }
+                else
+                {
+                    Audio.AudioManager.Instance.PlayCountdownTick();
+                }
+            }
         }
 
         private void HideCountdown()
