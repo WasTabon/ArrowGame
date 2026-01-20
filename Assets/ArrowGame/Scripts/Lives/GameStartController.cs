@@ -33,11 +33,7 @@ namespace ArrowGame.Lives
 
         public void TryStartGame()
         {
-            if (LivesManager.Instance == null)
-            {
-                StartGameWithCountdown();
-                return;
-            }
+            Debug.Log($"[GameStartController] TryStartGame. LivesManager.Instance: {LivesManager.Instance}");
 
             if (LivesManager.Instance.TryUseLife())
             {

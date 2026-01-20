@@ -29,6 +29,8 @@ namespace ArrowGame.Lives
 
         private void Awake()
         {
+            Debug.Log($"[LivesManager] Awake. Instance before: {Instance}");
+    
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -36,6 +38,8 @@ namespace ArrowGame.Lives
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+    
+            Debug.Log("[LivesManager] Instance set");
         }
 
         private void Start()
@@ -46,6 +50,8 @@ namespace ArrowGame.Lives
                 return;
             }
 
+            Debug.Log($"[LivesManager] Start. Config: {config}");
+            
             LoadState();
             CalculateOfflineRegeneration();
         }
@@ -112,7 +118,9 @@ namespace ArrowGame.Lives
         {
             if (currentLives >= config.maxLives) return;
 
+            Debug.Log($"[CalculateOfflineRegeneration] START: currentLives={currentLives}, maxLives={config.maxLives}");
             string savedTimeStr = PlayerPrefs.GetString(REGEN_TIME_KEY, "");
+            Debug.Log($"[CalculateOfflineRegeneration] savedTimeStr='{savedTimeStr}'");
             if (string.IsNullOrEmpty(savedTimeStr)) return;
 
             if (DateTime.TryParse(savedTimeStr, out DateTime savedTime))
@@ -162,6 +170,8 @@ namespace ArrowGame.Lives
             }
 
             SaveState();
+            
+            Debug.Log("Life is used");
             return true;
         }
 
@@ -202,11 +212,21 @@ namespace ArrowGame.Lives
             else
             {
                 currentLives = config.startingLives;
+                SaveState();
             }
 
-            regenTimer = config.RegenerationTimeSeconds;
+            if (currentLives < config.maxLives)
+            {
+                regenTimer = config.RegenerationTimeSeconds;
+            }
+            else
+            {
+                regenTimer = 0f;
+            }
+
             OnLivesChanged?.Invoke(currentLives);
         }
+
 
         public void ResetAllData()
         {
