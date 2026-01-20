@@ -61,13 +61,8 @@ namespace ArrowGame.Lives
             }
         }
 
-        private void UpdateLivesDisplay(int lives)
+        public void UpdateLivesDisplay(int lives)
         {
-            if (livesText != null)
-            {
-                livesText.text = $"{lives}/{LivesManager.Instance.MaxLives}";
-            }
-
             if (lifeIcons != null)
             {
                 for (int i = 0; i < lifeIcons.Length; i++)
@@ -75,6 +70,8 @@ namespace ArrowGame.Lives
                     if (lifeIcons[i] != null)
                     {
                         lifeIcons[i].color = i < lives ? activeLifeColor : emptyLifeColor;
+                        bool isActive = i < lives;
+                        Debug.Log($"Life is active: {isActive}");
                     }
                 }
             }

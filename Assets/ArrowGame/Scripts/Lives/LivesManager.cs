@@ -7,14 +7,14 @@ namespace ArrowGame.Lives
     {
         public static LivesManager Instance { get; private set; }
 
+        public LivesDisplay _livesDisplay;
+        
         [SerializeField] private LivesConfig config;
 
         private int currentLives;
         private float regenTimer;
-        private DateTime lastRegenTime;
 
         private const string LIVES_KEY = "ArrowGame_Lives";
-        private const string REGEN_TIME_KEY = "ArrowGame_RegenTime";
 
         public int CurrentLives => currentLives;
         public int MaxLives => config.maxLives;
@@ -53,12 +53,11 @@ namespace ArrowGame.Lives
             Debug.Log($"[LivesManager] Start. Config: {config}");
             
             LoadState();
-            CalculateOfflineRegeneration();
         }
 
         private void Update()
         {
-            if (currentLives < config.maxLives)
+            if (currentLives < config.maxLives && regenTimer > 0f)
             {
                 UpdateRegenTimer();
             }
@@ -104,7 +103,6 @@ namespace ArrowGame.Lives
             if (currentLives < config.maxLives)
             {
                 regenTimer = config.RegenerationTimeSeconds;
-                lastRegenTime = DateTime.Now;
             }
             else
             {
@@ -112,43 +110,6 @@ namespace ArrowGame.Lives
             }
 
             SaveState();
-        }
-
-        private void CalculateOfflineRegeneration()
-        {
-            if (currentLives >= config.maxLives) return;
-
-            Debug.Log($"[CalculateOfflineRegeneration] START: currentLives={currentLives}, maxLives={config.maxLives}");
-            string savedTimeStr = PlayerPrefs.GetString(REGEN_TIME_KEY, "");
-            Debug.Log($"[CalculateOfflineRegeneration] savedTimeStr='{savedTimeStr}'");
-            if (string.IsNullOrEmpty(savedTimeStr)) return;
-
-            if (DateTime.TryParse(savedTimeStr, out DateTime savedTime))
-            {
-                TimeSpan elapsed = DateTime.Now - savedTime;
-                float elapsedSeconds = (float)elapsed.TotalSeconds;
-
-                int livesFromOffline = Mathf.FloorToInt(elapsedSeconds / config.RegenerationTimeSeconds);
-                float remainingSeconds = elapsedSeconds % config.RegenerationTimeSeconds;
-
-                if (livesFromOffline > 0)
-                {
-                    currentLives = Mathf.Min(currentLives + livesFromOffline, config.maxLives);
-                    OnLivesChanged?.Invoke(currentLives);
-                }
-
-                if (currentLives < config.maxLives)
-                {
-                    regenTimer = config.RegenerationTimeSeconds - remainingSeconds;
-                    lastRegenTime = DateTime.Now;
-                }
-                else
-                {
-                    regenTimer = 0f;
-                }
-
-                SaveState();
-            }
         }
 
         public bool TryUseLife()
@@ -166,12 +127,11 @@ namespace ArrowGame.Lives
             if (wasFullLives && currentLives < config.maxLives)
             {
                 regenTimer = config.RegenerationTimeSeconds;
-                lastRegenTime = DateTime.Now;
             }
 
             SaveState();
             
-            Debug.Log("Life is used");
+            Debug.Log($"[LivesManager] Life used. Current: {currentLives}");
             return true;
         }
 
@@ -199,8 +159,8 @@ namespace ArrowGame.Lives
         private void SaveState()
         {
             PlayerPrefs.SetInt(LIVES_KEY, currentLives);
-            PlayerPrefs.SetString(REGEN_TIME_KEY, DateTime.Now.ToString());
             PlayerPrefs.Save();
+            Debug.Log($"[LivesManager] Saved: lives={currentLives}");
         }
 
         private void LoadState()
@@ -208,13 +168,16 @@ namespace ArrowGame.Lives
             if (PlayerPrefs.HasKey(LIVES_KEY))
             {
                 currentLives = PlayerPrefs.GetInt(LIVES_KEY);
+                Debug.Log($"[LivesManager] Loaded from PlayerPrefs: {currentLives}");
             }
             else
             {
                 currentLives = config.startingLives;
                 SaveState();
+                Debug.Log($"[LivesManager] First launch, set to startingLives: {currentLives}");
             }
 
+            // Устанавливаем таймер только если жизни неполные
             if (currentLives < config.maxLives)
             {
                 regenTimer = config.RegenerationTimeSeconds;
@@ -227,26 +190,14 @@ namespace ArrowGame.Lives
             OnLivesChanged?.Invoke(currentLives);
         }
 
-
         public void ResetAllData()
         {
             PlayerPrefs.DeleteKey(LIVES_KEY);
-            PlayerPrefs.DeleteKey(REGEN_TIME_KEY);
+            PlayerPrefs.Save();
             currentLives = config.startingLives;
             regenTimer = 0f;
             OnLivesChanged?.Invoke(currentLives);
-        }
-
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus)
-            {
-                SaveState();
-            }
-            else
-            {
-                CalculateOfflineRegeneration();
-            }
+            Debug.Log("[LivesManager] Data reset");
         }
 
         private void OnApplicationQuit()

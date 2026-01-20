@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLives: 5
   startingLives: 5
-  regenerationTimeMinutes: 20
+  regenerationTimeMinutes: 5
