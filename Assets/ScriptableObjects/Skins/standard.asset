@@ -18,8 +18,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   unlockedByDefault: 1
   unlockedByAchievementId: 
-  mesh: {fileID: -3577027543548130981, guid: 291796dc6ec4a1d4b8f615d126c3b5e6, type: 3}
-  material: {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
+  mesh: {fileID: 617972749429094375, guid: 9c35739ac5378da48aa7b7f61fb01e0c, type: 3}
+  material: {fileID: 2100000, guid: 5c57d49b51c144dd88e74e77943e1e02, type: 2}
   particlesPrefab: {fileID: 0}
   hasGlow: 0
   glowColor: {r: 1, g: 1, b: 1, a: 1}

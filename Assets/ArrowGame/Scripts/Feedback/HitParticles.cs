@@ -14,13 +14,6 @@ namespace ArrowGame.Feedback
         [SerializeField] private ParticleSystem outerParticles;
         [SerializeField] private ParticleSystem missParticles;
 
-        [Header("Colors")]
-        [SerializeField] private Color coreColor = Color.yellow;
-        [SerializeField] private Color innerColor = Color.green;
-        [SerializeField] private Color middleColor = Color.cyan;
-        [SerializeField] private Color outerColor = Color.white;
-        [SerializeField] private Color missColor = Color.red;
-
         [Header("Settings")]
         [SerializeField] private bool usePooling = true;
         [SerializeField] private int poolSize = 5;
@@ -83,24 +76,24 @@ namespace ArrowGame.Feedback
             switch (zone)
             {
                 case Hit.HitZone.Core:
-                    PlayFromPool(corePool, ref coreIndex, position, coreColor);
+                    PlayFromPool(corePool, ref coreIndex, position);
                     break;
                 case Hit.HitZone.Inner:
-                    PlayFromPool(innerPool, ref innerIndex, position, innerColor);
+                    PlayFromPool(innerPool, ref innerIndex, position);
                     break;
                 case Hit.HitZone.Middle:
-                    PlayFromPool(middlePool, ref middleIndex, position, middleColor);
+                    PlayFromPool(middlePool, ref middleIndex, position);
                     break;
                 case Hit.HitZone.Outer:
-                    PlayFromPool(outerPool, ref outerIndex, position, outerColor);
+                    PlayFromPool(outerPool, ref outerIndex, position);
                     break;
                 case Hit.HitZone.Miss:
-                    PlayFromPool(missPool, ref missIndex, position, missColor);
+                    PlayFromPool(missPool, ref missIndex, position);
                     break;
             }
         }
 
-        private void PlayFromPool(ParticleSystem[] pool, ref int index, Vector3 position, Color color)
+        private void PlayFromPool(ParticleSystem[] pool, ref int index, Vector3 position)
         {
             if (pool == null || pool.Length == 0) return;
 
@@ -108,7 +101,6 @@ namespace ArrowGame.Feedback
             ps.transform.position = position;
 
             var main = ps.main;
-            main.startColor = color;
 
             ps.Play();
 
