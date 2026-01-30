@@ -15,10 +15,10 @@ MonoBehaviour:
   baseNeedleSpeed: 10
   minNeedleSpeed: 0
   maxNeedleSpeed: 30
-  floatAmplitudeX: 0.3
-  floatAmplitudeY: 0.2
-  floatFrequencyX: 1.5
-  floatFrequencyY: 2
+  floatAmplitudeX: 5
+  floatAmplitudeY: 5
+  floatFrequencyX: 0.5
+  floatFrequencyY: 0.5
   cameraOffset: {x: 0, y: 2, z: -8}
   cameraSmoothSpeed: 5
   cameraLookAhead: 3
