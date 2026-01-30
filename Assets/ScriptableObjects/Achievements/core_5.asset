@@ -15,7 +15,7 @@ MonoBehaviour:
   id: core_5
   title: Sharpshooter
   description: Hit Core 5 times in a row
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: caa265e4cac0072489079debdffd0081, type: 3}
   category: 0
   conditionType: 0
   targetValue: 5

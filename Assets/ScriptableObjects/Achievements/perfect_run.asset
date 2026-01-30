@@ -15,7 +15,7 @@ MonoBehaviour:
   id: perfect_run
   title: Perfectionist
   description: Complete a run without missing (10+ rings)
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 912266353c29a1644b307b84203e5500, type: 3}
   category: 0
   conditionType: 3
   targetValue: 1

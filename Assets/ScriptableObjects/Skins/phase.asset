@@ -15,7 +15,7 @@ MonoBehaviour:
   id: phase
   displayName: Phase
   description: Semi-transparent with a ghostly trail.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4d3245a8d8c047f4ea7a5cae16b8f827, type: 3}
   unlockedByDefault: 0
   unlockedByAchievementId: streak_50
   mesh: {fileID: -3487346100349710984, guid: 88594a960ca43b4449bc630139de8e15, type: 3}

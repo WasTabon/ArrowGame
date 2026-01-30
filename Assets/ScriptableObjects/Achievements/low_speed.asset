@@ -15,7 +15,7 @@ MonoBehaviour:
   id: low_speed
   title: Living on Edge
   description: Survive at speed below 5
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 19bd23c037ccd414593cc000309e184e, type: 3}
   category: 2
   conditionType: 7
   targetValue: 1

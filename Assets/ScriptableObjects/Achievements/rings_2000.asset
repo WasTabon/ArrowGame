@@ -15,7 +15,7 @@ MonoBehaviour:
   id: rings_2000
   title: Ring Master
   description: Pass 2000 rings total
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 210838522cd61d54799af128cacb5283, type: 3}
   category: 3
   conditionType: 9
   targetValue: 2000

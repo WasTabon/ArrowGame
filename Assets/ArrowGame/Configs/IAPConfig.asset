@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IAPConfig
   m_EditorClassIdentifier: 
   products:
-  - productId: com.arrowgame.lives_1
+  - productId: com.extralife.inapp
     displayName: 1 Life
     livesAmount: 1
     isConsumable: 1

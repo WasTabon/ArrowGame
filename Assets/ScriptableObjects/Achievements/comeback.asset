@@ -15,7 +15,7 @@ MonoBehaviour:
   id: comeback
   title: Comeback King
   description: Recover 10 speed after dropping low
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7c07bd9360a31bd42b14450421884415, type: 3}
   category: 2
   conditionType: 8
   targetValue: 1

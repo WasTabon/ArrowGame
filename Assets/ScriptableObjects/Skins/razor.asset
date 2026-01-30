@@ -15,7 +15,7 @@ MonoBehaviour:
   id: razor
   displayName: Razor
   description: Sleek and sharp. For precision masters.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 851959635f695e344be2e1b6594e930f, type: 3}
   unlockedByDefault: 0
   unlockedByAchievementId: perfect_run
   mesh: {fileID: -6538074034220065942, guid: 5c75f178fa8087e41b67c9850e577028, type: 3}

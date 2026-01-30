@@ -15,7 +15,7 @@ MonoBehaviour:
   id: pulse
   displayName: Pulse
   description: A needle with a pulsating glow effect.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b700188c6592829439de64e030688ae0, type: 3}
   unlockedByDefault: 0
   unlockedByAchievementId: core_5
   mesh: {fileID: -4612884470876353721, guid: da8a5416927777441a11e8d0abdc41c5, type: 3}

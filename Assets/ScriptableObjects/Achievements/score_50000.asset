@@ -15,7 +15,7 @@ MonoBehaviour:
   id: score_50000
   title: High Scorer
   description: Reach 50,000 points in one run
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: caa265e4cac0072489079debdffd0081, type: 3}
   category: 3
   conditionType: 10
   targetValue: 50000

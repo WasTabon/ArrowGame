@@ -15,7 +15,7 @@ MonoBehaviour:
   id: void
   displayName: Void
   description: The ultimate prestige. Darkness incarnate.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f615024a303bf5a4aa3ed0adc1beae46, type: 3}
   unlockedByDefault: 0
   unlockedByAchievementId: rings_2000
   mesh: {fileID: -2429898525885671404, guid: 74a6602e6871f7841a28a83139c22291, type: 3}
